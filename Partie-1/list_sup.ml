@@ -9,7 +9,9 @@
         
 
 (************* Tri par selection du minimum ******************)
-(**************************  1  ******************************)
+
+
+(**************************  selectionne  ******************************)
 
 let rec selectionne inf l = 
     match l with
@@ -22,7 +24,7 @@ let rec selectionne inf l =
                    then selectionne inf (x::r)
                    else selectionne inf (y::r) ;;
     
-(**************************  2  ******************************)
+(************************** supprime ******************************)
 
 let rec supprime x l =
     match l with
@@ -34,7 +36,7 @@ let rec supprime x l =
              then r
              else a::(supprime x r);;
              
-(**************************  3  ******************************)
+(************************** tri_selection_min  ******************************)
 
 let rec tri_selection_min inf liste =
     match liste with
@@ -44,12 +46,28 @@ let rec tri_selection_min inf liste =
                  then x::y::[]
                  else y::x::[]
     |x::r -> (selectionne inf liste)::(tri_selection_min inf (supprime (selectionne inf liste) liste));;
+
+
+(********************** partitionne **********************)
+
+let rec partitionne_bis liste listePaire listeImpaire =
+    match liste with
+    [] -> listePaire , listeImpaire
+    |[x] -> (x::listePaire) , listeImpaire
+    |x::y::r -> partitionne_bis r (x::listePaire) (y::listeImpaire);;
+
+let partitionne liste = partitionne_bis liste [] [] ;;
+
+
+(********************** fusionne ***********************)
+
+let fusionne liste1 liste2 = liste1 @ liste2 ;;
+
+
+(********************* tri_partition_fusion *******************)
+
+let tri_partition_fusion inf l =
     
-    
-(**************************  4  ******************************)    
 
-
-
-
-
+(********************** fonction de tri finale **********************)
 
