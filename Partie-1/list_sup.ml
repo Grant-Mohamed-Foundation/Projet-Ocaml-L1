@@ -61,13 +61,17 @@ let partitionne liste = partitionne_bis liste [] [] ;;
 
 (********************** fusionne ***********************)
 
-let fusionne liste1 liste2 = liste1 @ liste2 ;;
+let fusionne inf liste1 liste2 = if inf liste1 liste2
+                                 then liste1 @ liste2
+                                 else liste2 @ liste1;;
 
 
 (********************* tri_partition_fusion *******************)
 
 let tri_partition_fusion inf l =
-    
+    let (liste1, liste2) = partitionne l in
+        fusionne inf (tri_selection_min (<=) liste1) (tri_selection_min (<=) liste2) ;;
+   
 
 (********************** fonction de tri finale **********************)
 
