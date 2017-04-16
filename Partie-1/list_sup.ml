@@ -48,18 +48,25 @@ let rec tri_selection_min inf liste =
 
 (********************** partitionne **********************)
 
+
+(* fonction permettant de résoudre le problème lié a la fonction partitionne (qui renvoyais les listes dans le mauvais ordres) *)
+let rec reverse_bis liste =
+    match liste with
+    [] -> []
+    |x::r -> (reverse r) @ [x];;
+
+let reverse (liste1,liste2) = reverse_bis(liste1) , reverse_bis(liste2) ;;
+
 let rec partitionne_bis liste liste1 liste2 =
     match liste with
     [] -> liste1 , liste2
     |[x] -> (x::liste1) , liste2
-    |x::y::r -> partitionne_bis r (x::liste1) (y::liste2);; (* ici probleme car les listes sont inverser, donc [1;2;3;4;5;6] donne [5;3;1],[6;4;2] *)
+    |x::y::r -> partitionne_bis r (x::liste1) (y::liste2);;
 
-let partitionne liste = partitionne_bis liste [] [] ;;
+let partitionne liste = reverse(partitionne_bis liste [] []) ;;
 
 
 (********************** fusionne ***********************)
-
-(* elle doit prendre 2 listes et les fusionner de type [1;3;5] et [2;4;6] ca donne [1;2;3;4;5;6] *)
 
 let rec fusionne inf liste1 liste2 =
     match (liste1,liste2) with
@@ -67,8 +74,8 @@ let rec fusionne inf liste1 liste2 =
     |([],_) -> liste2
     |(_,[]) -> liste1
     |(x::r1,y::r2) -> if inf x y
-                        then x::y::(fusionne inf r1 r2)
-                        else y::x::(fusionne inf r1 r2);;
+                      then x::y::(fusionne inf r1 r2)
+                      else y::x::(fusionne inf r1 r2);;
 
 (********************* tri_partition_fusion *******************)
 
