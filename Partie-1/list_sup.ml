@@ -53,7 +53,7 @@ let rec tri_selection_min inf liste =
 let rec reverse_bis liste =
     match liste with
     [] -> []
-    |x::r -> (reverse r) @ [x];;
+    |x::r -> (reverse_bis r) @ [x];;
 
 let reverse (liste1,liste2) = reverse_bis(liste1) , reverse_bis(liste2) ;;
 
@@ -74,8 +74,8 @@ let rec fusionne inf liste1 liste2 =
     |([],_) -> liste2
     |(_,[]) -> liste1
     |(x::r1,y::r2) -> if inf x y
-                      then x::y::(fusionne inf r1 r2)
-                      else y::x::(fusionne inf r1 r2);;
+                      then x::(fusionne inf r1 liste2)
+                      else y::(fusionne inf liste1 r2);;
 
 (********************* tri_partition_fusion *******************)
 
