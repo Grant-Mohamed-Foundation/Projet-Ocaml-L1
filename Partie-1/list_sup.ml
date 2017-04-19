@@ -46,8 +46,7 @@ let rec tri_selection_min inf liste =
     |x::r -> (selectionne inf liste)::(tri_selection_min inf (supprime (selectionne inf liste) liste));;
 
 
-(********************** partitionne **********************)
-
+(********************** reverse *************************)
 
 (* fonction permettant de résoudre le problème lié a la fonction partitionne (qui renvoyais les listes dans le mauvais ordres) *)
 let rec reverse_bis liste =
@@ -56,6 +55,9 @@ let rec reverse_bis liste =
     |x::r -> (reverse_bis r) @ [x];;
 
 let reverse (liste1,liste2) = reverse_bis(liste1) , reverse_bis(liste2) ;;
+
+
+(********************** partitionne **********************)
 
 let rec partitionne_bis liste liste1 liste2 =
     match liste with
@@ -86,4 +88,28 @@ let tri_partition_fusion inf l =
 
 (********************** fonction de tri finale **********************)
 
-(* faire des tests et trouver la fonction de tri la plus efficace *)
+(* En moyenne 0.114 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_selection_min *)
+
+(* En moyenne 0.062 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_partition_fusion, soit 2 fois moins que le tri_selection_min *)
+
+let tri = tri_partition_fusion ;;
+
+
+(*********************** min_list *************************)
+
+let min_list inf liste =
+    match tri inf liste with
+    [] -> failwith "Erreur, liste vide"
+    |[x] -> x
+    |x::r -> x;;
+
+    
+(********************* suppr_doublons **********************)
+
+let rec suppr_doublons liste =
+    match liste with
+    [] -> []
+    |[x] -> [x]
+    |x::y::r -> if x = y
+                then suppr_doublons (y::r)
+                else x::(suppr_doublons (y::r)) ;;
