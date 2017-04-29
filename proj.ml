@@ -34,3 +34,15 @@ let sca q0 q1 q2 =
     let q0q1 = { x = q1.x - q0.x ; y = q1.y - q0.y }
     and q0q2 = { x = q2.x - q0.x ; y = q2.y - q0.y } in
         (q0q1.x * q0q2.x) + (q0q2.y * q0q1.y) ;;
+
+        
+(* infg *)
+
+let infg w p1 p2 =
+    if p1 = w || p1 = p2
+    then true
+    else if p1 != p2 && p2 != w && p1 != p2
+         then (det w p1 p2) > 0
+         else (det w p1 p2) = 0 && (sca p1 w p2) < 0 ;;
+                   
+                   
