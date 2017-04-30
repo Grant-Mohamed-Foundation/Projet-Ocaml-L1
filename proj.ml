@@ -46,3 +46,26 @@ let infg w p1 p2 =
          else (det w p1 p2) = 0 && (sca p1 w p2) < 0 ;;
                    
                    
+(* tri_points *)
+let rec min_point l = match l with
+                  [] -> failwith "liste vide"
+                  |x::[] -> x
+                  |x::y::[] -> if infc x y
+                               then x
+                               else y
+                  |x::y::r -> if infc x y
+                             then min_point (x::r)
+                             else min_point (y::r);;
+
+let rec tri_points l = let p0 = min_point l in 
+                        match l with
+                        [] -> l
+                        |x::[] -> [x]
+                        |x::y::[] -> if infg p0 x y
+                                     then x::y::[]
+                                     else y::x::[]
+                        |x::y::r -> if not (infg p0 x y)
+                                    then tri_points (y::x::r)
+                                    else x::(tri_points (y::r)) ;;
+
+(* test: tri_points [{x=5;y=5};{x=3;y=3};{x=1;y=1};{x=2;y=2};{x=4;y=4}] ;; *)
