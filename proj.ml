@@ -46,7 +46,8 @@ let infg w p1 p2 =
          else (det w p1 p2) = 0 && (sca p1 w p2) < 0 ;;
                    
                    
-(* tri_points *)
+(* tri_points -> ça fonctionne pas... il faut que je reprenne depuis le début parce qu'il faut utiliser les fonctions de list_sup... *)
+
 let rec min_point l = match l with
                   [] -> failwith "liste vide"
                   |x::[] -> x
