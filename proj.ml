@@ -70,3 +70,10 @@ let rec tri_points l = let p0 = min_point l in
                                     else x::(tri_points (y::r)) ;;
 
 (* test: tri_points [{x=5;y=5};{x=3;y=3};{x=1;y=1};{x=2;y=2};{x=4;y=4}] ;; *)
+
+
+(* test de ttri_points, ca marche avec le test juste au dessus apres faut voir avec d'autre xD *)
+let tri_points listePoint =
+    let p0 = min_list infc listePoint in
+        let infg2 x y = infg p0 x y in
+            tri infg2 listePoint;;
