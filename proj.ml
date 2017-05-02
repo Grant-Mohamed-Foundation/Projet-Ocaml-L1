@@ -91,7 +91,7 @@ let algo_graham liste pile =
         match liste with
         [] -> exception Erreur_pile_vide
         |[x] -> pile (* faut trouver ce qu'il faut mettre *)
-        |x::r -> if det(s x r) > 0 (* faut trouver par quoi remplacer s et r *)
+        |x::r -> if det(s x r) > 0 (* faut trouver par quoi remplacer s et r (et je suis pas sur pour x) *)
                 then algo_graham r (empiler x)
                 else if det(s x r) < 0
                     then algo_graham r (depiler x)
