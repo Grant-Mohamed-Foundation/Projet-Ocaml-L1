@@ -1,0 +1,64 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\pagestyle{headings}
+
+\title{Rapport de Projet - Programmation Fonctionnelle}
+\author{Hugo Mohamed et Thomas Grant}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+
+Ce rapport présente la Partie A de notre projet, les problèmes rencontrés et la manière dont nous les avons abordés et résolus.
+
+\end{center} 
+
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Tri par sélection du minimum}
+\subsection{Fonction selectionne}
+La fonction \texttt{selectionne} prend un comparateur et une liste en paramètre, et retourne un élément. Par exemple avec le comparateur \texttt{(<)}, la fonction renverra le plus petit élément de la liste.
+Pour cela, nous avons utilisé \texttt{match with} qui nous permet de parcourir la liste afin de déterminé quel élément \texttt{x} vérifie \texttt{(comparateur) x y} avec \texttt{y} étant n'importe quel autre élément de la liste.
+\subsection{Fonction supprime}
+La fonction \texttt{supprime} prend un élément et une liste en paramètre, et retourne la liste sans la première occurrence de l'élément dans la liste. Pour cela, nous parcourons aussi la liste éléments par éléments afin de voir si l'un d'entre eux est égale à l'élément passé en paramètre, si c'est le cas, l'élément est supprimé de la liste, le programme s'arrête et renvoie la nouvelle liste.
+\subsection{Fonction tri selection min}
+La fonction \texttt{tri\_selection\_min} prend un comparateur et une liste en paramètre, et retourne la liste triée par ordre croissant en fonction du comparateur. Pour cela nous avons utilisé les fonctions \texttt{selectionne} et \texttt{supprime} qui nous ont permis de selectionner le plus petit élément de la liste (avec \texttt{selectionne}) et de l'ajouter au début de la liste sans cet élément qui aura été supprimé de sa position initiale (avec \texttt{supprime}).\\
+Au final on obtient notre liste initiale bien triée.
+\subsection{Test}
+Pour tester notre fonction \texttt{tri\_selection\_min}, nous avons utilisé le module Hasard transmit par nos professeurs. Dans ce module, nous trouvons la fonction \texttt{random\_list} qui prend deux nombres en paramètre, et retourne une liste d'entiers: le premier paramètre définissant les valeurs que peuvent prendre les entiers de la liste; le second, le nombre d'éléments de la liste.
+Cette fonction nous permet donc de tester notre fonction \texttt{tri\_selection\_min} sur différentes tailles de listes. Par exemple on peut rentrer:\begin{verbatim}
+# tri_selection_min (<) (random_list 500 200) ;;
+\end{verbatim} 
+Ce qui nous renverra la liste triée du plus petit au plus grand entier allant de 0 à 500 et contenant 200 entiers.
+\section{Tri par partition-fusion}
+\subsection{Fonction partitionne}
+La fonction \texttt{partitionne} prend une liste en paramètre et retourne deux listes créer à partir de la liste donnée. En fait, les deux nouvelles listes sont crées de la manière suivante: le premier élément de la liste donnée va dans la liste 1, le suivant dans la liste 2, et ainsi de suite en alternant à chaque fois.\\ Pour cela, nous avons rencontré quelques problèmes: 
+\subsection{Fonction fusionne}
+
+\subsection{Fonction tri partition fusion}
+
+\subsection{Test}
+
+
+\section{Choix d'une fonction de tri}
+\subsection{Création d'un module Test efficacite}
+
+\subsection{Test}
+
+
+\section{Module List sup définitif}
+\subsection{Les Fonctions retenues}
+
+\end{document}
