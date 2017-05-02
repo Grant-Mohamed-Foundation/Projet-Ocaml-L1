@@ -1,5 +1,11 @@
 (* proj.ml *)
 
+          (*******************************)
+          (*                             *)
+          (* Implantation du module Proj *)
+          (*                             *)
+          (*******************************)
+
 
 #load "list_sup.cmo" ;;
 #load "point.cmo" ;;
