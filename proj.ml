@@ -73,11 +73,28 @@ let rec tri_points l = let p0 = min_point l in
 
 
 (* test de tri_points, ca marche avec le test juste au dessus apres faut voir avec d'autre xD *)
+
 let tri_points listePoint =
     let p0 = min_list infc listePoint in
+        (* On définit infg2 de maniere a avoir uniquement 2 paramètre pour utiliser la fonction tri : *)
         let infg2 x y = infg p0 x y in
             suppr_doublons(tri infg2 listePoint);;
 
             
 (* algo_graham *)
 
+let algo_graham liste pile =
+    
+    let p = subtop pile
+    and r = top pile in
+    
+        match liste with
+        [] -> exception Erreur_pile_vide
+        |[x] -> pile (* faut trouver ce qu'il faut mettre *)
+        |x::r -> if det(s x r) > 0 (* faut trouver par quoi remplacer s et r *)
+                then algo_graham r (empiler x)
+                else if det(s x r) < 0
+                    then algo_graham r (depiler x)
+                    else algo_graham r pile ;;
+                    
+                    
