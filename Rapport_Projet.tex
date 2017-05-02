@@ -9,19 +9,43 @@
 
 \pagestyle{headings}
 
-\title{Rapport de Projet - Programmation Fonctionnelle}
-\author{Hugo Mohamed et Thomas Grant}
-\date{\today}
-
+\title{Rapport de Projet 
+\\ Programmation Fonctionnelle}
+\date{}
 \begin{document}
-\maketitle
+\begin{titlepage}
+\center
 
-\begin{center}
+{\Large \textsc{Université Jean Monnet}}
 
-Ce rapport présente la Partie A de notre projet, les problèmes rencontrés et la manière dont nous les avons abordés et résolus.
+\vspace*{1cm}
 
-\end{center} 
+{\Large \textsc{Faculté des Sciences et Techniques}}
 
+\vfill
+
+{\huge \bf \textsc{Projet de Programmation}}
+
+\vspace*{1cm}
+
+{\Large \textsc{Licence 1 Math-Info}}
+
+%\vspace*{1cm}
+
+{\large 2016-2017}
+
+\vfill
+
+
+\vspace*{0.5cm}
+
+{\large \textsc{Binôme:}}
+
+\vspace*{0.5cm}
+
+Hugo Mohamed et Thomas Grant.
+
+\end{titlepage}
 
 \newpage
 \tableofcontents
@@ -44,14 +68,16 @@ Cette fonction nous permet donc de tester notre fonction \texttt{tri\_selection\
 Ce qui nous renverra la liste triée du plus petit au plus grand entier allant de 0 à 500 et contenant 200 entiers.
 \section{Tri par partition-fusion}
 \subsection{Fonction partitionne}
-La fonction \texttt{partitionne} prend une liste en paramètre et retourne deux listes créer à partir de la liste donnée. En fait, les deux nouvelles listes sont crées de la manière suivante: le premier élément de la liste donnée va dans la liste 1, le suivant dans la liste 2, et ainsi de suite en alternant à chaque fois.\\ Pour cela, nous avons rencontré quelques problèmes: 
+La fonction \texttt{partitionne} prend une liste en paramètre et retourne deux listes créer à partir de la liste donnée. En fait, les deux nouvelles listes sont crées de la manière suivante: le premier élément de la liste donnée va dans la liste 1, le suivant dans la liste 2, et ainsi de suite en alternant à chaque fois.\\ Pour cela, nous avons rencontré quelques problèmes: \\
+En effet notre fonction prenait une liste en paramètre, et remplissait deux nouvelles listes vide au fur et à mesure, créant ainsi deux nouvelles listes sans modifier l'ordre mais en la renversant car le début de la liste se retrouve à la fin.\\
+De ce fait, nous avons créer une fonction \texttt{reverse} qui renvoie la liste finale renversée, car nous avons remarqué que dans la question suivante, il nous faudrait la liste triée dans l'ordre.
 \subsection{Fonction fusionne}
-
+La fonction \texttt{fusionne} prend un comparateur et deux listes triées, et retourne une liste triée suivant tout en respectant l'ordre à l'aide du comparateur.\\
+Pour cela, on compare deux à deux les éléments des deux listes pour en reconstituer qu'une seule en respectant l'ordre pré-défini.
 \subsection{Fonction tri partition fusion}
-
+Grâce aux deux fonctions précédentes, on peut créer la fonction \texttt{tri\_partition\_fusion} qui prend un comparateur et une liste en arguments, et retourne la liste triée en par ordre croissant en fonction du comparateur. Cette fois-ci, la liste reçu est séparée en deux listes pour être triées séparément, puis elles sont fusionnées ensemble pour formée une liste triée suivant le comparateur.
 \subsection{Test}
-
-
+Pour tester, cette fonction, nous avons utilisé la même méthode que pour la fonction \texttt{tri\_selection\_min}, c'est à dire avec le module \texttt{Hasard} et sa fonction \texttt{random\_list}.
 \section{Choix d'une fonction de tri}
 \subsection{Création d'un module Test efficacite}
 
