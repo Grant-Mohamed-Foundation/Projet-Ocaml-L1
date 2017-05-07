@@ -96,12 +96,8 @@ let tri = tri_partition_fusion ;;
 
 (*********************** min_list *************************)
 
-let min_list inf liste =
-    match tri inf liste with
-    [] -> failwith "Erreur, liste vide"
-    |[x] -> x
-    |x::r -> x;;
-
+let min_list inf l =
+    selectionne inf l;;
     
 (********************* suppr_doublons **********************)
 

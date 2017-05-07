@@ -47,17 +47,10 @@ let infg w p1 p2 =
 
 (* test de tri_points, ca marche avec le test juste au dessus apres faut voir avec d'autre xD *)
 
-(*let tri_points listePoint =
-    let p0 = min_list infc listePoint in
-        (* On définit infg2 de maniere a avoir uniquement 2 paramètre pour utiliser la fonction tri : *)
-        let infg2 x y = infg p0 x y in
-            suppr_doublons(tri infg2 listePoint);;
-
- *)
-
 let tri_points listePoint =
-    suppr_doublons(tri(infg(min_list infc listePoint)) listePoint) ;;
+     suppr_doublons (tri (infg (min_list infc listePoint)) listePoint);;
 
+     
 (* algo_graham *)
 (*
 let algo_graham liste pile =
