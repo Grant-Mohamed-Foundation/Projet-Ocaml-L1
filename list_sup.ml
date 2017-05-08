@@ -46,26 +46,14 @@ let rec tri_selection_min inf liste =
     |x::r -> (selectionne inf liste)::(tri_selection_min inf (supprime (selectionne inf liste) liste));;
 
 
-(********************** reverse *************************)
-
-(* fonction permettant de résoudre le problème lié a la fonction partitionne (qui renvoyais les listes dans le mauvais ordres) *)
-let rec reverse_bis liste =
-    match liste with
-    [] -> []
-    |x::r -> (reverse_bis r) @ [x];;
-
-let reverse (liste1,liste2) = reverse_bis(liste1) , reverse_bis(liste2) ;;
-
-
 (********************** partitionne **********************)
 
-let rec partitionne_bis liste liste1 liste2 =
-    match liste with
-    [] -> liste1 , liste2
-    |[x] -> (x::liste1) , liste2
-    |x::y::r -> partitionne_bis r (x::liste1) (y::liste2);;
-
-let partitionne liste = reverse(partitionne_bis liste [] []) ;;
+let rec partitionne l =
+    match l with 
+    [] -> ([], [])
+    |x::[] -> (l, [])
+    |x::y::r -> let (l1, l2) = partitionne r in
+        (x::l1, y::l2);;
 
 
 (********************** fusionne ***********************)
@@ -80,9 +68,15 @@ let rec fusionne inf liste1 liste2 =
 
 (********************* tri_partition_fusion *******************)
 
+let rec tri_partition_fusion_bis inf (l1, l2) =
+    match (l1, l2) with
+    ([], []) -> failwith "Erreur, listes vides"
+    |(x::r, []) -> [x]
+    |([], y::r2) -> [y]
+    |(x::r, y::r2) -> fusionne inf (tri_partition_fusion_bis inf (partitionne l1)) (tri_partition_fusion_bis inf (partitionne l2))
+
 let tri_partition_fusion inf l =
-    let (liste1, liste2) = partitionne l in
-        fusionne inf (tri_selection_min (<=) liste1) (tri_selection_min (<=) liste2) ;;
+    tri_partition_fusion_bis inf (partitionne l);;
    
 
 (********************** fonction de tri finale **********************)
