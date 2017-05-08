@@ -52,34 +52,41 @@ let tri_points listePoint =
 
      
 (* algo_graham *)
-(*
-let algo_graham liste pile =
-    
-    let p = subtop pile
-    and r = top pile in
-    
+
+(* Je pense que ça fonctionne presque mais je trouve pas l'erreur xD *)
+
+let rec algo_graham liste pile =
+    let s = subtop pile
+    and p = top pile in
         match liste with
-        [] -> exception Erreur_pile_vide
-        |[x] -> pile (* faut trouver ce qu'il faut mettre *)
-        |x::r -> if det(s x r) > 0 (* faut trouver par quoi remplacer s et r (et je suis pas sur pour x) *)
-                 then algo_graham r (empiler x)
-                 else if det(s x r) < 0
-                      then algo_graham liste (depiler x)
-                      else algo_graham r pile ;;
+        [] -> pile
+        |[x] -> if det(p x s) > 0
+                then empiler x pile
+                else if det(p x s) < 0
+                     then algo_graham liste (depiler p pile)
+                     else empiler x (depiler pile)
+        | x::r -> if det(p x s) > 0
+                  then algo_graham r (empiler x pile)
+                  else if det(p x s) < 0
+                       then algo_graham liste (depiler p pile)
+                       else algo_graham r (empiler x (depiler p pile)) ;;
                     
- *)                   
 (* env_graham *)
 
-
+let env_graham liste = 
+            match liste with
+            [] -> failwith "Erreur liste vide"
+            |[x] -> failwith "Erreur liste à un élément"
+            |algo_graham liste (liste.[0]::liste.[1]::[]) ;;
+            
 
 (* env *)
 
 (*let env g n =
     let l = (g n) in
     (
-        vider () ;
-        tracer_nuage l ;
+        vider ()
+        tracer_nuage l
         tracer_polygone (env_graham l)
     ) ;;
-    
-    *)
+*)
