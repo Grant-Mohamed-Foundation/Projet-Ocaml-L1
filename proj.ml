@@ -69,8 +69,8 @@ let rec algo_graham liste pile =
                   else if det(p x s) < 0
                        then algo_graham liste (depiler p pile)
                        else algo_graham r (empiler x (depiler p pile)) ;;
-                 
-                 
+
+                       
 (* env_graham *)
 
 let env_graham liste = 
@@ -85,9 +85,8 @@ let env_graham liste =
 (*let env g n =
     let l = (g n) in
     (
-        vider () ;
-        tracer_nuage l ;
+        vider ()
+        tracer_nuage l
         tracer_polygone (env_graham l)
     ) ;;
-    
-    *)
+*)
