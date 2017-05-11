@@ -59,16 +59,11 @@ let rec algo_graham liste pile =
     and p = top pile in
         match liste with
         [] -> pile
-        |[x] -> if det(p x s) > 0
-                then empiler x pile
-                else if det(p x s) < 0
-                     then algo_graham liste (depiler p pile)
-                     else empiler x (depiler pile)
-        | x::r -> if det(p x s) > 0
-                  then algo_graham r (empiler x pile)
-                  else if det(p x s) < 0
-                       then algo_graham liste (depiler p pile)
-                       else algo_graham r (empiler x (depiler p pile)) ;;
+        |x::r -> if det p x s > 0
+                 then algo_graham r (empiler x pile)
+                 else if det p x s < 0
+                      then algo_graham liste (depiler pile)
+                      else algo_graham r (empiler x (depiler pile)) ;;
 
                        
 (* env_graham *)
@@ -77,7 +72,7 @@ let env_graham liste =
             match liste with
             [] -> failwith "Erreur liste vide"
             |[x] -> failwith "Erreur liste à un élément"
-            |algo_graham liste (liste.[0]::liste.[1]::[]) ;;
+            |x::r -> algo_graham liste (liste.[0]::liste.[1]::[]) ;; (* faut que le 2eme argument soit une pile donc la c'est pas bon ^^ *)
             
 
 (* env *)
