@@ -73,7 +73,7 @@ let env_graham listePoint =
         match liste with
         [] -> failwith "Erreur, liste vide"
         |[x] -> failwith "Pas assez d'element dans la liste"
-        |x::y::r -> list_of_pile(algo_graham liste (empiler y (empiler x vide))) ;;
+        |x::y::r -> list_of_pile(algo_graham r (empiler y (empiler x vide))) ;;
 
 (* env *)
 
