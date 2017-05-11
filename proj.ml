@@ -64,16 +64,16 @@ let rec algo_graham liste pile =
                  else if det p x s < 0
                       then algo_graham liste (depiler pile)
                       else algo_graham r (empiler x (depiler pile)) ;;
-
+                       
                        
 (* env_graham *)
 
-let env_graham liste = 
-            match liste with
-            [] -> failwith "Erreur liste vide"
-            |[x] -> failwith "Erreur liste à un élément"
-            |x::r -> algo_graham liste (liste.[0]::liste.[1]::[]) ;; (* faut que le 2eme argument soit une pile donc la c'est pas bon ^^ *)
-            
+let env_graham listePoint =
+    let liste = tri_points listePoint in
+        match liste with
+        [] -> failwith "Erreur, liste vide"
+        |[x] -> failwith "Pas assez d'element dans la liste"
+        |x::y::r -> list_of_pile(algo_graham liste (empiler y (empiler x vide))) ;;
 
 (* env *)
 
