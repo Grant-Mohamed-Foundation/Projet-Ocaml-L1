@@ -46,14 +46,26 @@ let rec tri_selection_min inf liste =
     |x::r -> (selectionne inf liste)::(tri_selection_min inf (supprime (selectionne inf liste) liste));;
 
 
+(********************** reverse *************************)
+
+(* fonction permettant de résoudre le problème lié a la fonction partitionne (qui renvoyais les listes dans le mauvais ordres) *)
+let rec reverse_bis liste =
+    match liste with
+    [] -> []
+    |x::r -> (reverse_bis r) @ [x];;
+
+let reverse (liste1,liste2) = reverse_bis(liste1) , reverse_bis(liste2) ;;
+
+
 (********************** partitionne **********************)
 
-let rec partitionne l =
-    match l with 
-    [] -> ([], [])
-    |x::[] -> (l, [])
-    |x::y::r -> let (l1, l2) = partitionne r in
-        (x::l1, y::l2);;
+let rec partitionne_bis liste liste1 liste2 =
+    match liste with
+    [] -> liste1 , liste2
+    |[x] -> (x::liste1) , liste2
+    |x::y::r -> partitionne_bis r (x::liste1) (y::liste2);;
+
+let partitionne liste = reverse(partitionne_bis liste [] []) ;;
 
 
 (********************** fusionne ***********************)
@@ -68,15 +80,62 @@ let rec fusionne inf liste1 liste2 =
 
 (********************* tri_partition_fusion *******************)
 
-let rec tri_partition_fusion_bis inf (l1, l2) =
-    match (l1, l2) with
-    ([], []) -> failwith "Erreur, listes vides"
-    |(x::r, []) -> [x]
-    |([], y::r2) -> [y]
-    |(x::r, y::r2) -> fusionne inf (tri_partition_fusion_bis inf (partitionne l1)) (tri_partition_fusion_bis inf (partitionne l2))
-
 let tri_partition_fusion inf l =
-    tri_partition_fusion_bis inf (partitionne l);;
+    let (liste1, liste2) = partitionne l in
+        fusionne inf (tri_selection_min (<=) liste1) (tri_selection_min (<=) liste2) ;;
+    
+    
+(********************* tri_selection_max *******************)
+        
+let rec tri_selection_max_bis inf l1 l2=
+    match l1 with
+    [] -> []
+    |[x] -> [x]
+    |x::(y::[]) -> if inf x y
+                 then x::l2
+                 else y::l2
+    |x::r -> (selectionne inf l1)::(tri_selection_max_bis inf (supprime (selectionne inf l1) l1) l2);;
+    
+
+let tri_selection_max inf liste = tri_selection_max_bis inf liste [] ;;
+   
+   
+(********************* tri_insertion *******************)
+
+let rec insere inf x l =
+    match l with
+    [] -> [x]
+    |y::r -> if inf x y
+             then x::l
+             else y::(insere inf x r) ;;
+
+let rec enumere inf at dt =
+    match at with
+    [] -> dt
+    |x::r -> enumere inf r (insere inf x dt);;
+    
+
+let tri_insertion inf l = enumere inf l [] ;;
+
+(********************* tri_pivot*******************)
+   
+let rec separe_inf_eq_sup_bis comp x l i m f= 
+    match l with
+    [] -> (i,m,f)
+    |y::r -> if y = x
+             then separe_inf_eq_sup_bis comp x r i (y::m) f
+             else if comp y x
+                  then separe_inf_eq_sup_bis comp x r (y::i) m f
+                  else separe_inf_eq_sup_bis comp x r i m (y::f) ;;
+                  
+let separe_inf_eq_sup comp x l = separe_inf_eq_sup_bis comp x l [] [] [] ;;
+                  
+let rec concat_l (i,m,f) = i::m::f::[] ;;
+
+let rec tri_pivot infeq l =
+    match l with
+    [] -> l
+    |x::r -> tri_pivot infeq (concat_l (separe_inf_eq_sup infeq x r)) ;; 
    
 
 (********************** fonction de tri finale **********************)
