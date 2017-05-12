@@ -22,6 +22,9 @@ let rec selectionne inf l =
                    then selectionne inf (x::r)
                    else selectionne inf (y::r) ;;
     
+    (* val selectionne : ('a -> 'a -> bool) -> 'a list -> 'a *)
+    
+    
 (************************** supprime ******************************)
 
 let rec supprime x l =
@@ -34,6 +37,9 @@ let rec supprime x l =
              then r
              else a::(supprime x r);;
              
+(* val supprime : 'a -> 'a list -> 'a list *)
+
+             
 (************************** tri_selection_min  ******************************)
 
 let rec tri_selection_min inf liste =
@@ -45,28 +51,20 @@ let rec tri_selection_min inf liste =
                  else y::x::[]
     |x::r -> (selectionne inf liste)::(tri_selection_min inf (supprime (selectionne inf liste) liste));;
 
-
-(********************** reverse *************************)
-
-(* fonction permettant de résoudre le problème lié a la fonction partitionne (qui renvoyais les listes dans le mauvais ordres) *)
-let rec reverse_bis liste =
-    match liste with
-    [] -> []
-    |x::r -> (reverse_bis r) @ [x];;
-
-let reverse (liste1,liste2) = reverse_bis(liste1) , reverse_bis(liste2) ;;
-
+(* val tri_selection_min : ('a -> 'a -> bool) -> 'a list -> 'a list *)
+    
 
 (********************** partitionne **********************)
 
-let rec partitionne_bis liste liste1 liste2 =
-    match liste with
-    [] -> liste1 , liste2
-    |[x] -> (x::liste1) , liste2
-    |x::y::r -> partitionne_bis r (x::liste1) (y::liste2);;
+let rec partitionne l =
+    match l with 
+    [] -> ([], [])
+    |x::[] -> (l, [])
+    |x::y::r -> let (l1, l2) = partitionne r in
+        (x::l1, y::l2);;
 
-let partitionne liste = reverse(partitionne_bis liste [] []) ;;
-
+(* val partitionne : 'a list -> 'a list * 'a list *)
+        
 
 (********************** fusionne ***********************)
 
@@ -78,13 +76,39 @@ let rec fusionne inf liste1 liste2 =
                       then x::(fusionne inf r1 liste2)
                       else y::(fusionne inf liste1 r2);;
 
+(* val fusionne : ('a -> 'a -> bool) -> 'a list -> 'a list -> 'a list *)
+                      
+                      
 (********************* tri_partition_fusion *******************)
 
+let rec tri_partition_fusion_bis inf (l1, l2) =
+    match (l1, l2) with
+    ([], []) -> failwith "Erreur, listes vides"
+    |(x::r, []) -> [x]
+    |([], y::r2) -> [y]
+    |(x::r, y::r2) -> fusionne inf (tri_partition_fusion_bis inf (partitionne l1)) (tri_partition_fusion_bis inf (partitionne l2))
+
+(* val tri_partition_fusion_bis : ('a -> 'a -> bool) -> 'a list * 'a list -> 'a list *)
+
+
 let tri_partition_fusion inf l =
-    let (liste1, liste2) = partitionne l in
-        fusionne inf (tri_selection_min (<=) liste1) (tri_selection_min (<=) liste2) ;;
-    
-    
+    tri_partition_fusion_bis inf (partitionne l);;
+   
+(* val tri_partition_fusion : ('a -> 'a -> bool) -> 'a list -> 'a list *)
+   
+
+(********************** fonction de tri finale **********************)
+
+(* En moyenne 0.114 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_selection_min *)
+
+(* En moyenne 0.062 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_partition_fusion, soit 2 fois moins que le tri_selection_min *)
+
+let tri = tri_partition_fusion ;;
+
+(* val tri : ('a -> 'a -> bool) -> 'a list -> 'a list *)
+
+
+  
 (********************* tri_selection_max *******************)
         
 let rec tri_selection_max_bis inf l1 l2=
@@ -119,7 +143,7 @@ let tri_insertion inf l = enumere inf l [] ;;
 
 (********************* tri_pivot*******************)
    
-let rec separe_inf_eq_sup_bis comp x l i m f= 
+let rec separe_inf_eq_sup_bis comp x l i m f = 
     match l with
     [] -> (i,m,f)
     |y::r -> if y = x
@@ -127,31 +151,35 @@ let rec separe_inf_eq_sup_bis comp x l i m f=
              else if comp y x
                   then separe_inf_eq_sup_bis comp x r (y::i) m f
                   else separe_inf_eq_sup_bis comp x r i m (y::f) ;;
-                  
+
+(* val separe_inf_eq_sup_bis : ('a -> 'a -> bool) -> 'a -> 'a list -> 'a list -> 'a list -> 'a list -> 'a list * 'a list * 'a list *)
+
+
 let separe_inf_eq_sup comp x l = separe_inf_eq_sup_bis comp x l [] [] [] ;;
-                  
+
+(* val separe_inf_eq_sup : ('a -> 'a -> bool) -> 'a -> 'a list -> 'a list * 'a list * 'a list *)
+
+
 let rec concat_l (i,m,f) = i::m::f::[] ;;
+
+(* val concat_l : 'a * 'a * 'a -> 'a list *)
+
 
 let rec tri_pivot infeq l =
     match l with
     [] -> l
     |x::r -> tri_pivot infeq (concat_l (separe_inf_eq_sup infeq x r)) ;; 
-   
 
-(********************** fonction de tri finale **********************)
-
-(* En moyenne 0.114 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_selection_min *)
-
-(* En moyenne 0.062 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_partition_fusion, soit 2 fois moins que le tri_selection_min *)
-
-let tri = tri_partition_fusion ;;
 
 
 (*********************** min_list *************************)
 
 let min_list inf l =
     selectionne inf l;;
-    
+   
+(* val min_list : ('a -> 'a -> bool) -> 'a list -> 'a *)
+   
+   
 (********************* suppr_doublons **********************)
 
 let rec suppr_doublons liste =
@@ -162,3 +190,4 @@ let rec suppr_doublons liste =
                 then suppr_doublons (y::r)
                 else x::(suppr_doublons (y::r)) ;;
 
+(* val suppr_doublons : 'a list -> 'a list *)
