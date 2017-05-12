@@ -77,11 +77,11 @@ let env_graham listePoint =
 
 (* env *)
 
-(*let env g n =
+let env g n =
     let l = (g n) in
     (
-        vider ()
-        tracer_nuage l
+        vider () ;
+        tracer_nuage l ;
         tracer_polygone (env_graham l)
     ) ;;
-*)
+
