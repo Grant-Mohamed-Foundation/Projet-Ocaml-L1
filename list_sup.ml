@@ -160,9 +160,9 @@ let separe_inf_eq_sup comp x l = separe_inf_eq_sup_bis comp x l [] [] [] ;;
 (* val separe_inf_eq_sup : ('a -> 'a -> bool) -> 'a -> 'a list -> 'a list * 'a list * 'a list *)
 
 
-let rec concat_l (i,m,f) = i::m::f::[] ;;
+let rec concat_l (i,m,f) = i @ m @ f ;;
 
-(* val concat_l : 'a * 'a * 'a -> 'a list *)
+(* val concat_l : 'a list * 'a list * 'a list -> 'a list *)
 
 
 let rec tri_pivot infeq l =
