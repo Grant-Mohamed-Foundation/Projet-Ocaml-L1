@@ -12,6 +12,7 @@
 #load "point.cmo" ;;
 #load "pile.cmo" ;;
 
+
 (* ouverture des modules *)
 open List_sup ;;
 open Point ;;
@@ -82,11 +83,10 @@ let rec algo_graham liste pile =
 (* env_graham *)
 
 let env_graham listePoint =
-    let liste = tri_points listePoint in
-        match liste with
-        [] -> failwith "Erreur, liste vide"
-        |[x] -> failwith "Pas assez d'element dans la liste"
-        |x::y::r -> list_of_pile(algo_graham r (empiler y (empiler x vide))) ;;
+    match tri_points listePoint with
+    [] -> failwith "Erreur, liste vide"
+    |[x] -> failwith "Pas assez d'element dans la liste"
+    |x::y::r -> list_of_pile(algo_graham r (empiler y (empiler x vide))) ;;
 
 (* val env_graham : point list -> point list *)
         
@@ -95,17 +95,8 @@ let env_graham listePoint =
 
 let env g n =
     let l = (g n) in
-    (
         vider () ;
         tracer_nuage l ;
-        tracer_polygone (env_graham l)
-    ) ;;
+        tracer_polygone (env_graham l) ;;
 
 (* val env : ('a -> nuage) -> 'a -> unit *)
-
-
-
-
-
-
-
