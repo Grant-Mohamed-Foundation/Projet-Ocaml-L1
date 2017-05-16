@@ -47,12 +47,14 @@ let sca q0 q1 q2 =
 (* infg *)
 
 let infg w p1 p2 =
-    if p1 = w || p1 = p2
+    if p1 = w 
     then true
-    else if p1 != p2 && p2 != w && p1 != w
-         then (det w p1 p2) > 0
-         else (det w p1 p2) = 0 && (sca p1 w p2) < 0 ;;
-         
+    else if p1 = p2
+         then true
+         else if p2 != w && (det w p1 p2) > 0
+              then true
+              else p2 != w && (det w p1 p2) = 0 && (sca p1 w p2) < 0 ;;
+              
 (* val infg : point -> point -> point -> bool *)
          
 
