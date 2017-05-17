@@ -51,40 +51,39 @@ Hugo Mohamed et Thomas Grant.
 \tableofcontents
 \newpage
 
-\section{Tri par sélection du minimum}
-\subsection{Fonction selectionne}
-La fonction \texttt{selectionne} prend un comparateur et une liste en paramètre, et retourne un élément. Par exemple avec le comparateur \texttt{(<)}, la fonction renverra le plus petit élément de la liste.
-Pour cela, nous avons utilisé \texttt{match with} qui nous permet de parcourir la liste afin de déterminé quel élément \texttt{x} vérifie \texttt{(comparateur) x y} avec \texttt{y} étant n'importe quel autre élément de la liste.
-\subsection{Fonction supprime}
-La fonction \texttt{supprime} prend un élément et une liste en paramètre, et retourne la liste sans la première occurrence de l'élément dans la liste. Pour cela, nous parcourons aussi la liste éléments par éléments afin de voir si l'un d'entre eux est égale à l'élément passé en paramètre, si c'est le cas, l'élément est supprimé de la liste, le programme s'arrête et renvoie la nouvelle liste.
-\subsection{Fonction tri selection min}
-La fonction \texttt{tri\_selection\_min} prend un comparateur et une liste en paramètre, et retourne la liste triée par ordre croissant en fonction du comparateur. Pour cela nous avons utilisé les fonctions \texttt{selectionne} et \texttt{supprime} qui nous ont permis de selectionner le plus petit élément de la liste (avec \texttt{selectionne}) et de l'ajouter au début de la liste sans cet élément qui aura été supprimé de sa position initiale (avec \texttt{supprime}).\\
-Au final on obtient notre liste initiale bien triée.
-\subsection{Test}
-Pour tester notre fonction \texttt{tri\_selection\_min}, nous avons utilisé le module Hasard transmit par nos professeurs. Dans ce module, nous trouvons la fonction \texttt{random\_list} qui prend deux nombres en paramètre, et retourne une liste d'entiers: le premier paramètre définissant les valeurs que peuvent prendre les entiers de la liste; le second, le nombre d'éléments de la liste.
-Cette fonction nous permet donc de tester notre fonction \texttt{tri\_selection\_min} sur différentes tailles de listes. Par exemple on peut rentrer:\begin{verbatim}
-# tri_selection_min (<) (random_list 500 200) ;;
-\end{verbatim} 
-Ce qui nous renverra la liste triée du plus petit au plus grand entier allant de 0 à 500 et contenant 200 entiers.
-\section{Tri par partition-fusion}
-\subsection{Fonction partitionne}
-La fonction \texttt{partitionne} prend une liste en paramètre et retourne deux listes créer à partir de la liste donnée. En fait, les deux nouvelles listes sont crées de la manière suivante: le premier élément de la liste donnée va dans la liste 1, le suivant dans la liste 2, et ainsi de suite en alternant à chaque fois.\\ Pour cela, nous avons rencontré quelques problèmes: \\
-En effet notre fonction prenait une liste en paramètre, et remplissait deux nouvelles listes vide au fur et à mesure, créant ainsi deux nouvelles listes sans modifier l'ordre mais en la renversant car le début de la liste se retrouve à la fin.\\
-De ce fait, nous avons créer une fonction \texttt{reverse} qui renvoie la liste finale renversée, car nous avons remarqué que dans la question suivante, il nous faudrait la liste triée dans l'ordre.
-\subsection{Fonction fusionne}
-La fonction \texttt{fusionne} prend un comparateur et deux listes triées, et retourne une liste triée suivant tout en respectant l'ordre à l'aide du comparateur.\\
-Pour cela, on compare deux à deux les éléments des deux listes pour en reconstituer qu'une seule en respectant l'ordre pré-défini.
-\subsection{Fonction tri partition fusion}
-Grâce aux deux fonctions précédentes, on peut créer la fonction \texttt{tri\_partition\_fusion} qui prend un comparateur et une liste en arguments, et retourne la liste triée en par ordre croissant en fonction du comparateur. Cette fois-ci, la liste reçu est séparée en deux listes pour être triées séparément, puis elles sont fusionnées ensemble pour formée une liste triée suivant le comparateur.
-\subsection{Test}
-Pour tester, cette fonction, nous avons utilisé la même méthode que pour la fonction \texttt{tri\_selection\_min}, c'est à dire avec le module \texttt{Hasard} et sa fonction \texttt{random\_list}.
+\section{Fonctions de tri}
+\subsection{Tri par sélection du minimum}
+La fonction \texttt{tri\_selection\_min} utilise les fonctions \texttt{selectionne} et \texttt{supprime} pour selectionner le plus petit élément de la liste et de l'ajouter au début de la liste sans cet élément qui aura été supprimé de sa position initiale.
+
+\subsection{Tri par partition-fusion}
+On peut créer la fonction \texttt{tri\_partition\_fusion} en utilisant les fonctions \texttt{partitionne} et \texttt{fusionne} où la liste reçu est séparée en deux listes pour être triées séparément, puis elles sont fusionnées ensemble pour formée une liste triée suivant le comparateur.
+
+\subsection{Tri par sélection du maximum}
+Pour cette fonction de tri, nous avons fait une fonction bis pour pouvoir ajouté le plus grand élément de la liste que l'on veut traiter dans une nouvelle liste vide.
+
+\subsection{Tri par insertion}
+Pour cette fonction, on utilise une liste vide que l'on remplit en ajoutant les éléments de la liste donné au fur et à mesure dans le bon ordre.
+\subsection{Tri par pivot}
+Pour \texttt{tri\_pivot}, nous divisons la listes en 3 liste à partir du premier élément, puis nous recommençons jusqu'à obtenir pleins de listes à un élément que l'on concatène.
+
+\subsection{Tri à bulle}
+Cette fonction tri la liste en comparant les éléments deux à deux de manière récursive et en les intervertissant si nécessaire.
+Au final, on compare notre liste initiale avec la liste modifiée et on recommence tant que les deux listes ne sont pas égales.
+
+\newpage
 \section{Choix d'une fonction de tri}
 \subsection{Création d'un module Test efficacite}
-
+Nous avons créé un module \texttt{efficacite} dans lequel nous avons définit \texttt{temps\_exe\_min} à partir de l'aide fourni dans le sujet pour connaître la vitesse d'un programme.\\
+Nous pouvons donc ensuite comparer toutes nos fonctions de tri en fonction de la liste donné.
 \subsection{Test}
+Nous avons décidé de définir la fonction la plus rapide en se basant sur une moyenne des tests effectués avec des petites listes, puis des grandes listes, en utilisant la fonction \texttt{Random\_list}.\\En testant toutes les fonctions deux à deux, on se rend donc compte que la plus rapide est \texttt{tri\_pivot}.
 
 
 \section{Module List sup définitif}
 \subsection{Les Fonctions retenues}
-
+La fonction \texttt{tri}:\\
+\texttt{\#let tri = tri\_pivot} \\
+On définit tout simplement la fonction la plus rapide comme étant la fonction de tri finale.\\ \\
+La fonction \texttt{min\_list} qui permet d'avoir le minimum de la liste. \\ \\
+Enfin \texttt{suppr\_doublons} qui renvoie notre liste sans doublons.
 \end{document}
