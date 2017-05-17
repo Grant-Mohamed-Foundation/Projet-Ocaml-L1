@@ -19,7 +19,7 @@ open Point ;;
 open Pile ;;
 
 
-(* infc *)
+(****************** infc *******************)
 
 let infc point1 point2 =
     if point1.y < point2.y
@@ -28,15 +28,16 @@ let infc point1 point2 =
 
 (* val infc : point -> point -> bool *)
     
-         
-(* det *)
+       
+(********************** det *********************)
+
 let det q0 q1 q2 =
     (q1.x - q0.x)*(q2.y - q0.y) - (q2.x - q0.x) * (q1.y - q0.y);;
         
 (* val det : point -> point -> point -> int *)
         
-        
-(* sca *)
+
+(****************** sca ******************)
 
 let sca q0 q1 q2 =
     (q1.x - q0.x)*(q2.x - q0.x) + (q1.y - q0.y)*(q2.y - q0.y);;
@@ -44,7 +45,7 @@ let sca q0 q1 q2 =
 (* val sca : point -> point -> point -> int *)
     
         
-(* infg *)
+(**************** infg ****************)
 
 let infg w p1 p2 =
     if p1 = w 
@@ -58,7 +59,7 @@ let infg w p1 p2 =
 (* val infg : point -> point -> point -> bool *)
          
 
-(* tri_points *)
+(************************ tri_points *********************)
 
 let tri_points listePoint =
      suppr_doublons (tri (infg (min_list infc listePoint)) listePoint);;
@@ -66,7 +67,7 @@ let tri_points listePoint =
 (* val tri_points : point list -> point list *)
      
      
-(* algo_graham *)
+(********************* algo_graham *********************)
 
 let rec algo_graham liste pile =
     let s = subtop pile
@@ -80,9 +81,9 @@ let rec algo_graham liste pile =
                       else algo_graham r (empiler x (depiler pile)) ;;
 
 (* val algo_graham : point list -> point pile -> point pile *)
-                      
-                       
-(* env_graham *)
+                
+
+(**************************** env_graham ***************************)
 
 let env_graham listePoint =
     match tri_points listePoint with
@@ -92,8 +93,8 @@ let env_graham listePoint =
 
 (* val env_graham : point list -> point list *)
         
-        
-(* env *)
+
+(************************** env ************************)
 
 let env g n =
     let l = (g n) in
@@ -102,3 +103,48 @@ let env g n =
         tracer_polygone (env_graham l) ;;
 
 (* val env : ('a -> nuage) -> 'a -> unit *)
+
+
+(*************************** infj *************************)
+
+let infj s p1 p2 =
+    if p2 = s
+    then true
+    else if p2 = p1
+         then true
+         else if det s p1 p2 > 0
+              then true
+              else det s p1 p2 = 0 && sca p1 s p2 > 0 ;;
+              
+(* val infj : point -> point -> point -> bool *)
+
+
+(********************** algo_jarvis ***********************)
+
+let rec algo_jarvis nuage p0 pile =
+    let p1 = min_list (infj(top pile)) nuage in
+        if p1 = p0 (* cas d'arret si on a fais le tour de l'enveloppe *)
+        then pile
+        else algo_jarvis nuage p0 (empiler p1 pile) ;; (* on ajoute le plus petit point different de p0 (du point precedent) *)
+
+(* val algo_jarvis : nuage -> point -> pile -> pile *)
+
+
+(*************** env_jarvis ***************)
+
+let env_jarvis nuage =
+    let p0 = min_list infc nuage in (* on defini p0 etant le minimum du nuage, selon infc *)
+        list_of_pile(algo_jarvis nuage p0 (empiler p0 vide)) ;; (* on lance l'algo_jarvis avec p0 et une pile contenant uniquement p0 *)
+        
+(* val point list -> point list *)
+
+
+(********************* envj **********************)
+
+let envj g n =
+    let l = (g n) in
+        vider () ;
+        tracer_nuage l ;
+        tracer_polygone (env_jarvis l) ;;
+        
+(* val envj : ('a -> nuage) -> 'a -> unit *)
