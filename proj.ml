@@ -33,7 +33,7 @@ let infc point1 point2 =
 
 let det q0 q1 q2 =
     (q1.x - q0.x)*(q2.y - q0.y) - (q2.x - q0.x) * (q1.y - q0.y);;
-        
+
 (* val det : point -> point -> point -> int *)
         
 
@@ -74,11 +74,11 @@ let rec algo_graham liste pile =
     and p = top pile in
         match liste with
         [] -> pile
-        |x::r -> if det p x s > 0
+        |x::r -> if det p x s > 0 (* tourne a droite *)
                  then algo_graham r (empiler x pile)
-                 else if det p x s < 0
+                 else if det p x s < 0 (* tourne a gauche *)
                       then algo_graham liste (depiler pile)
-                      else algo_graham r (empiler x (depiler pile)) ;;
+                      else algo_graham r (empiler x (depiler pile)) ;; (* va tout droit *)
 
 (* val algo_graham : point list -> point pile -> point pile *)
                 
@@ -89,7 +89,7 @@ let env_graham listePoint =
     match tri_points listePoint with
     [] -> failwith "Erreur, liste vide"
     |[x] -> failwith "Pas assez d'element dans la liste"
-    |x::y::r -> list_of_pile(algo_graham r (empiler y (empiler x vide))) ;;
+    |x::y::r -> list_of_pile(algo_graham r (empiler y (empiler x vide))) ;; (* on lance algo_graham avec une pile contenant les 2 premiers éléments de la liste *)
 
 (* val env_graham : point list -> point list *)
         

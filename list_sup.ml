@@ -97,17 +97,6 @@ let tri_partition_fusion inf l =
 (* val tri_partition_fusion : ('a -> 'a -> bool) -> 'a list -> 'a list *)
    
 
-(********************** fonction de tri finale **********************)
-
-(* En moyenne 0.114 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_selection_min *)
-
-(* En moyenne 0.062 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_partition_fusion, soit 2 fois moins que le tri_selection_min *)
-
-let tri = tri_partition_fusion ;;
-
-(* val tri : ('a -> 'a -> bool) -> 'a list -> 'a list *)
-
-
   
 (********************* tri_selection_max *******************)
         
@@ -159,17 +148,20 @@ let separe_inf_eq_sup comp x l = separe_inf_eq_sup_bis comp x l [] [] [] ;;
 
 (* val separe_inf_eq_sup : ('a -> 'a -> bool) -> 'a -> 'a list -> 'a list * 'a list * 'a list *)
 
-
-let rec concat_l (i,m,f) = i::m::f::[] ;;
-
-(* val concat_l : 'a * 'a * 'a -> 'a list *)
-
-
 let rec tri_pivot infeq l =
     match l with
-    [] -> l
-    |x::r -> tri_pivot infeq (concat_l (separe_inf_eq_sup infeq x r)) ;; 
+    [] -> []
+    |x::r -> let (i,m,f) = separe_inf_eq_sup infeq x r in
+        (tri_pivot infeq i)@m@(x::(tri_pivot infeq f)) ;;
+        
+(* val tri_pivot : ('a -> 'a -> bool) -> 'a list -> 'a list *)
 
+
+(********************** fonction de tri finale **********************)
+
+let tri = tri_pivot ;;
+
+(* val tri : ('a -> 'a -> bool) -> 'a list -> 'a list *)
 
 
 (*********************** min_list *************************)
