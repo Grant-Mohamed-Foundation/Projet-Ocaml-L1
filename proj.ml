@@ -12,6 +12,7 @@
 #load "point.cmo" ;;
 #load "pile.cmo" ;;
 
+
 (* ouverture des modules *)
 open List_sup ;;
 open Point ;;
@@ -46,12 +47,14 @@ let sca q0 q1 q2 =
 (* infg *)
 
 let infg w p1 p2 =
-    if p1 = w || p1 = p2
+    if p1 = w 
     then true
-    else if p1 != p2 && p2 != w && p1 != w
-         then (det w p1 p2) > 0
-         else (det w p1 p2) = 0 && (sca p1 w p2) < 0 ;;
-         
+    else if p1 = p2
+         then true
+         else if p2 != w && (det w p1 p2) > 0
+              then true
+              else p2 != w && (det w p1 p2) = 0 && (sca p1 w p2) < 0 ;;
+              
 (* val infg : point -> point -> point -> bool *)
          
 
@@ -82,11 +85,10 @@ let rec algo_graham liste pile =
 (* env_graham *)
 
 let env_graham listePoint =
-    let liste = tri_points listePoint in
-        match liste with
-        [] -> failwith "Erreur, liste vide"
-        |[x] -> failwith "Pas assez d'element dans la liste"
-        |x::y::r -> list_of_pile(algo_graham r (empiler y (empiler x vide))) ;;
+    match tri_points listePoint with
+    [] -> failwith "Erreur, liste vide"
+    |[x] -> failwith "Pas assez d'element dans la liste"
+    |x::y::r -> list_of_pile(algo_graham r (empiler y (empiler x vide))) ;;
 
 (* val env_graham : point list -> point list *)
         
@@ -95,17 +97,8 @@ let env_graham listePoint =
 
 let env g n =
     let l = (g n) in
-    (
         vider () ;
         tracer_nuage l ;
-        tracer_polygone (env_graham l)
-    ) ;;
+        tracer_polygone (env_graham l) ;;
 
 (* val env : ('a -> nuage) -> 'a -> unit *)
-
-
-
-
-
-
-
