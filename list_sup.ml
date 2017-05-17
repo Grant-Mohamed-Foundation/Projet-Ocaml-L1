@@ -95,18 +95,6 @@ let tri_partition_fusion inf l =
     tri_partition_fusion_bis inf (partitionne l);;
    
 (* val tri_partition_fusion : ('a -> 'a -> bool) -> 'a list -> 'a list *)
-   
-
-(********************** fonction de tri finale **********************)
-
-(* En moyenne 0.114 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_selection_min *)
-
-(* En moyenne 0.062 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_partition_fusion, soit 2 fois moins que le tri_selection_min *)
-
-let tri = tri_partition_fusion ;;
-
-(* val tri : ('a -> 'a -> bool) -> 'a list -> 'a list *)
-
 
   
 (********************* tri_selection_max *******************)
@@ -141,6 +129,7 @@ let rec enumere inf at dt =
 
 let tri_insertion inf l = enumere inf l [] ;;
 
+
 (********************* tri_pivot*******************)
    
 let rec separe_inf_eq_sup_bis comp x l i m f = 
@@ -165,12 +154,41 @@ let rec concat_l (i,m,f) = i @ m @ f ;;
 (* val concat_l : 'a list * 'a list * 'a list -> 'a list *)
 
 
-let rec tri_pivot infeq l =
+let rec tri_pivot comp l = 
     match l with
     [] -> l
-    |x::r -> tri_pivot infeq (concat_l (separe_inf_eq_sup infeq x r)) ;; 
+    |x::r -> tri_pivot comp (concat_l (separe_inf_eq_sup comp x r));;
+    
 
+(********************* tri_à_bulle *******************)
 
+let rec bulle comp l =
+    match l with
+    [] -> []
+    |[x] -> [x]
+    |x::y::[] -> if comp x y
+                 then x::y::[]
+                 else y::x::[]
+    |x::y::r -> if comp x y
+                then x::(bulle comp (y::r))
+                else y::(bulle comp (x::r)) ;;
+                
+let rec tri_a_bulle comp l =
+    if (bulle comp l) = l
+    then l
+    else tri_a_bulle comp (bulle comp l) ;;
+    
+    
+
+(********************** fonction de tri finale **********************)
+
+(* En moyenne 0.114 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_selection_min *)
+
+(* En moyenne 0.062 seconde pour trier un liste de 100 éléments contenant des entiers compris entre 0 et 1000 avec tri_partition_fusion, soit 2 fois moins que le tri_selection_min *)
+
+let tri = tri_partition_fusion ;;
+
+(* val tri : ('a -> 'a -> bool) -> 'a list -> 'a list *)
 
 (*********************** min_list *************************)
 
