@@ -130,6 +130,31 @@ let rec enumere inf at dt =
 
 let tri_insertion inf l = enumere inf l [] ;;
 
+
+(********************* tri_à_bulle *******************)
+
+let rec bulle comp l =
+    match l with
+    [] -> []
+    |[x] -> [x]
+    |x::y::[] -> if comp x y
+                 then x::y::[]
+                 else y::x::[]
+    |x::y::r -> if comp x y
+                then x::(bulle comp (y::r))
+                else y::(bulle comp (x::r)) ;;
+                
+(* val bulle : ('a -> 'a -> bool) -> 'a list -> 'a list *)
+
+                
+let rec tri_a_bulle comp l =
+    if (bulle comp l) = l
+    then l
+    else tri_a_bulle comp (bulle comp l) ;;
+
+(* val tri_a_bulle ('a -> 'a -> bool) -> 'a list -> 'a list *)
+    
+
 (********************* tri_pivot*******************)
    
 let rec separe_inf_eq_sup_bis comp x l i m f = 
